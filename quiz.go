@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Welcome to quiz game!")
+	fmt.Println("Welcome to the quiz game!")
 
 	var name string
 	var age uint
@@ -17,41 +17,72 @@ func main() {
 	fmt.Printf("Enter your age: ")
 	fmt.Scan(&age)
 
-	if age >= 10 {
-		fmt.Println("You can play this game")
-	} else {
+	if age < 10 {
 		fmt.Println("You cannot play this game\nSorry")
 		return
 	}
+
+	fmt.Println("You can play this game")
 
 	score := 0
 	num_soal := 2
 
 	fmt.Println("Continue")
 
-	fmt.Printf("What is the capital of Indonesia? ")
+	var category string
+	fmt.Printf("Select the question topic (enter a number):\n1. Geography\n2. Technology\nYour choice: ")
+	fmt.Scan(&category)
 
-	var answer string
-	var answer2 string
+	switch category {
+	case "1":
+		fmt.Printf("1. What is the capital of Indonesia? ")
+		var answer string
+		fmt.Scan(&answer)
 
-	fmt.Scan(&answer)
+		if answer == "Jakarta" || answer == "jakarta" {
+			fmt.Println("Correct!")
+			score++
+		} else {
+			fmt.Println("Incorrect!")
+		}
 
-	if answer == "Jakarta" || answer == "jakarta" {
-		fmt.Println("Correct!")
-		score++
-	} else {
-		fmt.Println("Incorrect!")
-	}
+		fmt.Printf("2. The next capital of Indonesia is Nusantara or Balikpapan? ")
+		var answer2 string
+		fmt.Scan(&answer2)
 
-	fmt.Printf("The next capital of Indonesia is Nusantara or Balikpapan? ")
+		if answer2 == "Nusantara" || answer2 == "nusantara" {
+			fmt.Println("Correct!")
+			score++
+		} else {
+			fmt.Println("Incorrect!")
+		}
 
-	fmt.Scan(&answer2)
+	case "2":
+		fmt.Printf("1. The popular programming languages between C or PHP is? ")
+		var answer string
+		fmt.Scan(&answer)
 
-	if answer2 == "Nusantara" || answer2 == "nusantara" {
-		fmt.Println("Correct!")
-		score++
-	} else {
-		fmt.Println("Incorrect!")
+		if answer == "PHP" || answer == "php" {
+			fmt.Println("Correct!")
+			score++
+		} else {
+			fmt.Println("Incorrect!")
+		}
+
+		fmt.Printf("2. What is the most popular framework in PHP? ")
+		var answer2 string
+		fmt.Scan(&answer2)
+
+		if answer2 == "Laravel" || answer2 == "laravel" {
+			fmt.Println("Correct!")
+			score++
+		} else {
+			fmt.Println("Incorrect!")
+		}
+
+	default:
+		fmt.Println("Invalid category selection")
+		return
 	}
 
 	fmt.Printf("You scored %v out of %v. \n", score, num_soal)
