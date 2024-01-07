@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 )
 
 func main() {
@@ -24,8 +25,16 @@ func main() {
 
 	fmt.Println("You can play this game")
 
-	score := 0
+	score := playQuiz()
 	num_soal := 2
+
+	fmt.Printf("You scored %v out of %v. \n", score, num_soal)
+	percent := calculatePercentage(score, num_soal)
+	fmt.Printf("%v, you scored: %v%%.", name, percent)
+}
+
+func playQuiz() int {
+	var score int
 
 	fmt.Println("Continue")
 
@@ -35,57 +44,37 @@ func main() {
 
 	switch category {
 	case "1":
-		fmt.Printf("1. What is the capital of Indonesia? ")
-		var answer string
-		fmt.Scan(&answer)
-
-		if answer == "Jakarta" || answer == "jakarta" {
-			fmt.Println("Correct!")
-			score++
-		} else {
-			fmt.Println("Incorrect!")
-		}
-
-		fmt.Printf("2. The next capital of Indonesia is Nusantara or Balikpapan? ")
-		var answer2 string
-		fmt.Scan(&answer2)
-
-		if answer2 == "Nusantara" || answer2 == "nusantara" {
-			fmt.Println("Correct!")
-			score++
-		} else {
-			fmt.Println("Incorrect!")
-		}
-
+		score += askQuestion("What is the capital of Indonesia?", "Jakarta")
+		score += askQuestion("The next capital of Indonesia is Nusantara or Balikpapan?", "Nusantara")
 	case "2":
-		fmt.Printf("1. The popular programming languages between C or PHP is? ")
-		var answer string
-		fmt.Scan(&answer)
-
-		if answer == "PHP" || answer == "php" {
-			fmt.Println("Correct!")
-			score++
-		} else {
-			fmt.Println("Incorrect!")
-		}
-
-		fmt.Printf("2. What is the most popular framework in PHP? ")
-		var answer2 string
-		fmt.Scan(&answer2)
-
-		if answer2 == "Laravel" || answer2 == "laravel" {
-			fmt.Println("Correct!")
-			score++
-		} else {
-			fmt.Println("Incorrect!")
-		}
-
+		score += askQuestion("The popular programming languages between C or PHP is?", "PHP")
+		score += askQuestion("What is the most popular framework in PHP?", "Laravel")
 	default:
 		fmt.Println("Invalid category selection")
-		return
+		return 0
 	}
 
-	fmt.Printf("You scored %v out of %v. \n", score, num_soal)
-	percent := (float64(score) / float64(num_soal)) * 100
-	fmt.Printf("%v, you scored: %v%%.", name, percent)
+	return score
+}
+
+func askQuestion(question, correctAnswer string) int {
+	var answer string
+
+	fmt.Printf("%s ", question)
+	fmt.Scan(&answer)
+
+	answer = strings.ToLower(answer)
+	correctAnswer = strings.ToLower(correctAnswer)
+
+	if answer == correctAnswer {
+		fmt.Println("Correct!")
+		return 1
+	} else {
+		fmt.Println("Incorrect!")
+		return 0
+	}
+}
+
+func calculatePercentage(score, totalQuestions int) float64 {
+	return (float64(score) / float64(totalQuestions)) * 100
 }
