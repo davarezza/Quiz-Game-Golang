@@ -26,7 +26,7 @@ func main() {
 	fmt.Println("You can play this game")
 
 	score := playQuiz()
-	num_soal := 2
+	num_soal := 3
 
 	fmt.Printf("You scored %v out of %v. \n", score, num_soal)
 	percent := calculatePercentage(score, num_soal)
@@ -46,9 +46,11 @@ func playQuiz() int {
 	case "1":
 		score += askQuestion("What is the capital of Indonesia?", "Jakarta")
 		score += askQuestion("The next capital of Indonesia is Nusantara or Balikpapan?", "Nusantara")
+		score += askQuestion("How many provinces in Indonesia?", "38")
 	case "2":
 		score += askQuestion("The popular programming languages between C or PHP is?", "PHP")
 		score += askQuestion("What is the most popular framework in PHP?", "Laravel")
+		score += askQuestion("Better Intel Core i3 or Intel Core i5", "Intel Core i5")
 	default:
 		fmt.Println("Invalid category selection")
 		return 0
@@ -63,10 +65,20 @@ func askQuestion(question, correctAnswer string) int {
 	fmt.Printf("%s ", question)
 	fmt.Scan(&answer)
 
-	answer = strings.ToLower(answer)
-	correctAnswer = strings.ToLower(correctAnswer)
+	answer = strings.TrimSpace(answer)
+	correctAnswer = strings.TrimSpace(correctAnswer)
 
-	if answer == correctAnswer {
+	expectedWords := strings.Fields(correctAnswer)
+
+	found := false
+	for _, word := range expectedWords {
+		if strings.ToLower(answer) == strings.ToLower(word) {
+			found = true
+			break
+		}
+	}
+
+	if found {
 		fmt.Println("Correct!")
 		return 1
 	} else {
